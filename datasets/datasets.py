@@ -122,7 +122,7 @@ def get_transform_imagenet():
     return train_transform, test_transform
 
 
-def get_dataset(P, dataset, test_only=False, image_size=None, download=False, eval=False):
+def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eval=False):
     if dataset in ['imagenet', 'cub', 'stanford_dogs', 'flowers102',
                    'places365', 'food_101', 'caltech_256', 'dtd', 'pets']:
         if eval:
@@ -280,5 +280,3 @@ def get_simclr_eval_transform_imagenet(sample_num, resize_factor, resize_fix):
     transform = MultiDataTransformList(transform, clean_trasform, sample_num)
 
     return transform, transform
-
-

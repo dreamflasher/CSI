@@ -1,9 +1,8 @@
-from utils.utils import Logger
-from utils.utils import save_checkpoint
-from utils.utils import save_linear_checkpoint
+from tqdm import tqdm
 
 from common.train import *
 from evals import test_classifier
+from utils.utils import Logger, save_checkpoint, save_linear_checkpoint
 
 if 'sup' in P.mode:
     from training.sup import setup
@@ -22,7 +21,7 @@ else:
 linear_optim = torch.optim.Adam(linear.parameters(), lr=1e-3, betas=(.9, .999), weight_decay=P.weight_decay)
 
 # Run experiments
-for epoch in range(start_epoch, P.epochs + 1):
+for epoch in tqdm(range(start_epoch, P.epochs + 1)):
     logger.log_dirname(f"Epoch {epoch}")
     model.train()
 
