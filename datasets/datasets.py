@@ -136,7 +136,7 @@ def get_transform_imagenet():
 
 
 def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eval=False):
-    if dataset in ['imagenet', 'cub', 'stanford_dogs', 'flowers102',
+    if dataset in ['imagenet', 'cub', 'stanford_dogs', 'flowers102', 'oxford102flower', 
                    'places365', 'food_101', 'caltech_256', 'dtd', 'pets']:
         if eval:
             train_transform, test_transform = get_simclr_eval_transform_imagenet(P.ood_samples,
@@ -167,6 +167,13 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
         n_classes = 10
         train_set = datasets.MNIST(DATA_PATH, train=True, download=download, transform=train_transform)
         test_set = datasets.MNIST(DATA_PATH, train=False, download=download, transform=test_transform)
+
+    elif dataset == 'oxford102flower':
+        image_size = (224, 224, 3)
+        n_classes = 102
+        base_dir = os.path.join(DATA_PATH, 'oxford102flower')
+        train_set = datasets.ImageFolder(base_dir + "/train", transform=train_transform)
+        test_set = datasets.ImageFolder(base_dir + "/valid", transform=test_transform)
 
     elif dataset == 'cifar100':
         image_size = (32, 32, 3)
@@ -275,6 +282,8 @@ def get_superclass_list(dataset):
         return list(range(10))
     elif dataset == 'mnist':
         return list(range(10))
+    elif dataset == 'oxford102flower':
+        return list(range(1, 103))
     else:
         raise NotImplementedError()
 

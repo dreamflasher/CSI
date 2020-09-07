@@ -3,7 +3,7 @@ import time
 import torch.optim
 
 import models.transform_layers as TL
-from training.contrastive_loss import get_similarity_matrix, NT_xent
+from training.contrastive_loss import NT_xent, get_similarity_matrix
 from utils.utils import AverageMeter, normalize
 
 device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
@@ -39,13 +39,14 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, logger=None,
         check = time.time()
 
         ### SimCLR loss ###
-        if P.dataset != 'imagenet':
+        if P.dataset == 'imagenet' or P.dataset == 'oxford102flower':
+            batch_size = images[0].size(0)
+            images1, images2 = images[0].to(device), images[1].to(device)
+        else:
             batch_size = images.size(0)
             images = images.to(device)
             images1, images2 = hflip(images.repeat(2, 1, 1, 1)).chunk(2)  # hflip
-        else:
-            batch_size = images[0].size(0)
-            images1, images2 = images[0].to(device), images[1].to(device)
+        
         labels = labels.to(device)
 
         images1 = torch.cat([P.shift_trans(images1, k) for k in range(P.K_shift)])
@@ -110,4 +111,3 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, logger=None,
         logger.scalar_summary('train/loss_sim', losses['sim'].average, epoch)
         logger.scalar_summary('train/loss_shift', losses['shift'].average, epoch)
         logger.scalar_summary('train/batch_time', batch_time.average, epoch)
-
