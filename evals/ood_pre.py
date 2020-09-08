@@ -216,11 +216,10 @@ def _get_features(P, model, loader, interp=False, imagenet=False, simclr_aug=Non
             feats_all[layer] += [feats_batch[layer]]
 
     # concatenate features in full dataset
-    for key, val in feats_all.items():
-        if len(val) > 0:
-            feats_all[key] = torch.cat(val, dim=0)  # (N, T, d)
-        else:
-            del feats_all[key]
+    #for key, val in feats_all.items():
+    #    if len(val) > 0:
+    #        feats_all[key] = torch.cat(val, dim=0)  # (N, T, d)
+    feats_all = {k: torch.cat(v, dim=0) for k, v in feats_all.items() if len(v) > 0}
 
     # reshape order
     if imagenet is False:
