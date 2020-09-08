@@ -217,7 +217,10 @@ def _get_features(P, model, loader, interp=False, imagenet=False, simclr_aug=Non
 
     # concatenate features in full dataset
     for key, val in feats_all.items():
-        feats_all[key] = torch.cat(val, dim=0)  # (N, T, d)
+        if len(val) > 0:
+            feats_all[key] = torch.cat(val, dim=0)  # (N, T, d)
+        else:
+            del feats_all[key]
 
     # reshape order
     if imagenet is False:
