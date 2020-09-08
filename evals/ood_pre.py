@@ -1,14 +1,14 @@
 import os
 from copy import deepcopy
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
 
 import models.transform_layers as TL
-from utils.utils import set_random_seed, normalize
 from evals.evals import get_auroc
+from utils.utils import normalize, set_random_seed
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 hflip = TL.HorizontalFlipLayer().to(device)
@@ -143,7 +143,7 @@ def get_features(P, data_name, model, loader, interp=False, prefix='',
     # pre-compute features and save to the path
     left = [layer for layer in layers if layer not in feats_dict.keys()]
     if len(left) > 0:
-        _feats_dict = _get_features(P, model, loader, interp, P.dataset == 'imagenet',
+        _feats_dict = _get_features(P, model, loader, interp, P.dataset == 'imagenet' or P.dataset == 'oxford102flower',
                                     simclr_aug, sample_num, layers=left)
 
         for layer, feats in _feats_dict.items():
@@ -237,4 +237,3 @@ def print_score(data_name, scores):
     print('{:18s} '.format(data_name) +
           '{:.4f} +- {:.4f}    '.format(np.mean(scores), np.std(scores)) +
           '    '.join(['q{:d}: {:.4f}'.format(i * 10, quantile[i]) for i in range(11)]))
-
