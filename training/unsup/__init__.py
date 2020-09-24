@@ -1,5 +1,5 @@
 def setup(mode, P):
-    fname = f'{P.dataset}_{P.model}_unsup_{mode}'
+    fname = f'{P.dataset}_{P.model}_unsup_{mode}_samples{P.ood_samples}'
 
     if mode == 'simclr':
         from .simclr import train
@@ -28,4 +28,3 @@ def summary_comp_loss(logger, tag, loss_dict, epoch):
     logger.scalar_summary(f'{tag}/pos', loss_dict['pos'].average, epoch)
     logger.scalar_summary(f'{tag}/neg', loss_dict['neg'].average, epoch)
     logger.scalar_summary(f'{tag}', loss_dict['diff'].average, epoch)
-
