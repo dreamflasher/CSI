@@ -110,6 +110,7 @@ def get_scores(P, feats_dict, ood_score):
     feats_shi = feats_dict['shift'].to(device)
     N = feats_sim.size(0)
 
+    old_pk_shift = P.K_shift
     if P.ood_samples == 1:
         P.K_shift = 1
     # compute scores
@@ -126,6 +127,7 @@ def get_scores(P, feats_dict, ood_score):
     scores = torch.tensor(scores)
 
     assert scores.dim() == 1 and scores.size(0) == N  # (N)
+    P.K_shift = old_pk_shift
     return scores.cpu()
 
 
