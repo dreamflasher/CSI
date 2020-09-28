@@ -110,6 +110,8 @@ def get_scores(P, feats_dict, ood_score):
     feats_shi = feats_dict['shift'].to(device)
     N = feats_sim.size(0)
 
+    if P.ood_samples == 1:
+        P.K_shift = 1
     # compute scores
     scores = []
     for f_sim, f_shi in zip(feats_sim, feats_shi):
