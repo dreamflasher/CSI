@@ -187,7 +187,7 @@ def _get_features(P, model, loader, interp=False, imagenet=False, simclr_aug=Non
         for seed in range(sample_num):
             set_random_seed(seed)
 
-            if P.K_shift > 1:
+            if P.K_shift > 1 and P.ood_samples > 1:
                 x_t = torch.cat([P.shift_trans(hflip(x), k) for k in range(P.K_shift)])
             else:
                 x_t = x # No shifting: SimCLR
