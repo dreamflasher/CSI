@@ -39,14 +39,14 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, logger=None,
         check = time.time()
 
         ### SimCLR loss ###
-        if P.dataset == 'imagenet' or P.dataset == 'oxford102flower':
+        if P.dataset in ['imagenet', 'oxford102flower', 'mvtad']:
             batch_size = images[0].size(0)
             images1, images2 = images[0].to(device), images[1].to(device)
         else:
             batch_size = images.size(0)
             images = images.to(device)
             images1, images2 = hflip(images.repeat(2, 1, 1, 1)).chunk(2)  # hflip
-        
+
         labels = labels.to(device)
 
         images1 = torch.cat([P.shift_trans(images1, k) for k in range(P.K_shift)])

@@ -147,7 +147,7 @@ def get_features(P, data_name, model, loader, interp=False, prefix='',
     # pre-compute features and save to the path
     left = [layer for layer in layers if layer not in feats_dict.keys()]
     if len(left) > 0:
-        _feats_dict = _get_features(P, model, loader, interp, P.dataset == 'imagenet' or P.dataset == 'oxford102flower',
+        _feats_dict = _get_features(P, model, loader, interp, P.dataset in ['imagenet', 'oxford102flower', 'mvtad'],
                                     simclr_aug, sample_num, layers=left)
 
         for layer, feats in _feats_dict.items():

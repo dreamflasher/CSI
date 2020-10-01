@@ -4,9 +4,9 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 
-from common.common import parse_args
 import models.classifier as C
-from datasets import get_dataset, get_superclass_list, get_subclass_dataset
+from common.common import parse_args
+from datasets import get_dataset, get_subclass_dataset, get_superclass_list
 
 P = parse_args()
 
@@ -25,7 +25,7 @@ ood_eval = P.mode == 'ood_pre'
 if P.dataset == 'imagenet' and ood_eval:
     P.batch_size = 1
     P.test_batch_size = 1
-train_set, test_set, image_size, n_classes = get_dataset(P, dataset=P.dataset, eval=ood_eval)
+train_set, test_set, image_size, n_classes = get_dataset(P, dataset=P.dataset, eval=ood_eval, normal_class=P.one_class_idx)
 
 P.image_size = image_size
 P.n_classes = n_classes
@@ -62,7 +62,7 @@ for ood in P.ood_dataset:
         ood_test_set = get_subclass_dataset(full_test_set, classes=cls_list[ood])
         ood = f'one_class_{ood}'  # change save name
     else:
-        ood_test_set = get_dataset(P, dataset=ood, test_only=True, image_size=P.image_size, eval=ood_eval)
+        ood_test_set = get_dataset(P, dataset=ood, test_only=True, image_size=P.image_size, eval=ood_eval, normal_class=P.one_class_idx)
 
     ood_test_loader[ood] = DataLoader(ood_test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)
 

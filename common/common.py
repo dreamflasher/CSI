@@ -8,7 +8,7 @@ def parse_args(default=False):
 
     parser.add_argument('--dataset', help='Dataset',
                         choices=['cifar10', 'cifar100', 'imagenet', 'flowers102', 'fashionmnist',
-                                 'mnist', 'oxford102flower'], type=str)
+                                 'mnist', 'oxford102flower', 'mvtad'], type=str)
     parser.add_argument('--one_class_idx', help='None: multi-class, Not None: one-class',
                         default=None, type=int)
     parser.add_argument('--model', help='Model',
