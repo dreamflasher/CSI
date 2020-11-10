@@ -304,6 +304,10 @@ def get_superclass_list(dataset):
         return list(range(1, 103))
     elif dataset == 'mvtad':
         return list(range(0, 15))
+    elif dataset == 'dtextures':
+        return list(range(0, 47))
+    elif dataset == 'steeldefects':
+        return list(range(0, 2))
     else:
         raise NotImplementedError()
 
