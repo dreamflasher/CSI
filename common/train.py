@@ -61,6 +61,8 @@ if P.multi_gpu:
     train_loader = DataLoader(train_set, sampler=train_sampler, batch_size=P.batch_size, **kwargs)
     test_loader = DataLoader(test_set, sampler=test_sampler, batch_size=P.test_batch_size, **kwargs)
 else:
+    if "num_samples" in kwargs and kwargs["num_samples"] == 0:
+        kwargs.pop("num_samples")
     train_loader = DataLoader(train_set, shuffle=True, batch_size=P.batch_size, **kwargs)
     test_loader = DataLoader(test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)
 
