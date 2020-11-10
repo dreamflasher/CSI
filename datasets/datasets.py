@@ -5,7 +5,7 @@ import torch
 from torch.utils.data.dataset import Subset
 from torchvision import datasets, transforms
 
-from datasets.mvtad import MVTAD
+import anomalous.datasets.datasets as adatasets
 from utils.utils import set_random_seed
 
 DATA_PATH = '~/data/'
@@ -137,8 +137,8 @@ def get_transform_imagenet():
 
 
 def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eval=False, normal_class=None):
-    if dataset in ['imagenet', 'cub', 'stanford_dogs', 'flowers102', 'oxford102flower', 
-                   'places365', 'food_101', 'caltech_256', 'dtd', 'pets', 'mvtad']:
+    if dataset in ['imagenet', 'cub', 'stanford_dogs', 'flowers102', 'mvtad', 'steeldefects', 'dtextures',
+                   'places365', 'food_101', 'caltech_256', 'dtd', 'pets']:
         if eval:
             train_transform, test_transform = get_simclr_eval_transform_imagenet(P.ood_samples,
                                                                                  P.resize_factor, P.resize_fix)
@@ -170,17 +170,28 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
         test_set = datasets.MNIST(DATA_PATH, train=False, download=download, transform=test_transform)
 
     elif dataset == 'oxford102flower':
-        image_size = (224, 224, 3)
+        image_size = (32, 32, 3)
         n_classes = 102
-        base_dir = os.path.join(DATA_PATH, 'oxford102flower')
-        train_set = datasets.ImageFolder(base_dir + "/train", transform=train_transform)
-        test_set = datasets.ImageFolder(base_dir + "/valid", transform=test_transform)
+        train_set = adatasets.OxfordFlowers(DATA_PATH, split="train", transform=train_transform)
+        test_set = adatasets.OxfordFlowers(DATA_PATH, split="test", transform=train_transform)
 
     elif dataset == 'mvtad':
         image_size = (224, 224, 3)
         n_classes = 15
-        train_set = MVTAD(DATA_PATH, normal_class=normal_class, train=True, download=download, transform=train_transform)
-        test_set = MVTAD(DATA_PATH, normal_class=normal_class, train=False, download=download, transform=train_transform)
+        train_set = adatasets.MVTAD(DATA_PATH, normal_class=normal_class, train=True, transform=train_transform)
+        test_set = adatasets.MVTAD(DATA_PATH, normal_class=normal_class, train=False, transform=train_transform)
+
+    elif dataset == 'dtextures':
+        image_size = (224, 224, 3)
+        n_classes = 47
+        train_set = adatasets.DTextures(DATA_PATH, normal_class=normal_class, train=True, transform=train_transform)
+        test_set = adatasets.DTextures(DATA_PATH, normal_class=normal_class, train=False, transform=train_transform)
+
+    elif dataset == 'steeldefects':
+        image_size = (224, 224, 3)
+        n_classes = 2
+        train_set = adatasets.SteelDefects(DATA_PATH, normal_class=normal_class, train=True, transform=train_transform)
+        test_set = adatasets.SteelDefects(DATA_PATH, normal_class=normal_class, train=False, transform=train_transform)
 
     elif dataset == 'cifar100':
         image_size = (32, 32, 3)

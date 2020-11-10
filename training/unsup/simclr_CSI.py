@@ -39,7 +39,7 @@ def train(P, epoch, model, criterion, optimizer, scheduler, loader, logger=None,
         check = time.time()
 
         ### SimCLR loss ###
-        if P.dataset in ['imagenet', 'oxford102flower', 'mvtad']:
+        if P.dataset in ['imagenet', 'mvtad', 'dtextures', 'steeldefects']:
             batch_size = images[0].size(0)
             images1, images2 = images[0].to(device), images[1].to(device)
         else:
