@@ -184,14 +184,14 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
     elif dataset == 'dtextures':
         image_size = (224, 224, 3)
         n_classes = 47
-        train_set = adatasets.DTextures(DATA_PATH, normal_class=normal_class, train=True, transform=train_transform)
-        test_set = adatasets.DTextures(DATA_PATH, normal_class=normal_class, train=False, transform=train_transform)
+        train_set = adatasets.DTextures(DATA_PATH, train=True, transform=train_transform)
+        test_set = adatasets.DTextures(DATA_PATH, train=False, transform=train_transform)
 
     elif dataset == 'steeldefects':
         image_size = (224, 224, 3)
         n_classes = 2
-        train_set = adatasets.SteelDefects(DATA_PATH, normal_class=normal_class, train=True, transform=train_transform)
-        test_set = adatasets.SteelDefects(DATA_PATH, normal_class=normal_class, train=False, transform=train_transform)
+        train_set = adatasets.SteelDefects(DATA_PATH, train=True, transform=train_transform)
+        test_set = adatasets.SteelDefects(DATA_PATH, train=False, transform=train_transform)
 
     elif dataset == 'cifar100':
         image_size = (32, 32, 3)
