@@ -8,7 +8,7 @@ from torchvision import datasets, transforms
 import anomalous.datasets.datasets as adatasets
 from utils.utils import set_random_seed
 
-DATA_PATH = '~/data/'
+DATA_PATH = '/data/'
 IMAGENET_PATH = '~/data/ImageNet'
 
 
