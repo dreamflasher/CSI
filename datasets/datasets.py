@@ -173,13 +173,13 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
         image_size = (32, 32, 3)
         n_classes = 102
         train_set = adatasets.OxfordFlowers(DATA_PATH, split="train", transform=train_transform)
-        test_set = adatasets.OxfordFlowers(DATA_PATH, split="test", transform=train_transform)
+        test_set = adatasets.OxfordFlowers(DATA_PATH, split="test", transform=test_transform)
 
     elif dataset == 'mvtad':
         image_size = (224, 224, 3)
         n_classes = 15
         train_set = adatasets.MVTAD(DATA_PATH, normal_class=normal_class, train=True, transform=train_transform)
-        test_set = adatasets.MVTAD(DATA_PATH, normal_class=normal_class, train=False, transform=train_transform)
+        test_set = adatasets.MVTAD(DATA_PATH, normal_class=normal_class, train=False, transform=test_transform)
 
     elif dataset == 'dtextures':
         image_size = (224, 224, 3)
