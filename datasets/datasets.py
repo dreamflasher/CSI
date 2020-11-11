@@ -131,8 +131,8 @@ def get_transform_imagenet():
         transforms.ToTensor(),
     ])
 
-    train_transform = MultiDataTransform(train_transform)
-    test_transform = MultiDataTransform(test_transform)
+    #train_transform = MultiDataTransform(train_transform)
+    #test_transform = MultiDataTransform(test_transform)
 
     return train_transform, test_transform
 
