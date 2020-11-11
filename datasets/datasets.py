@@ -132,6 +132,7 @@ def get_transform_imagenet():
     ])
 
     train_transform = MultiDataTransform(train_transform)
+    test_transform = MultiDataTransform(test_transform)
 
     return train_transform, test_transform
 
