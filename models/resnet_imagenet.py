@@ -138,7 +138,7 @@ class ResNet(BaseModel):
                                        dilate=replace_stride_with_dilation[1])
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2,
                                        dilate=replace_stride_with_dilation[2])
-        self.avgpool = nn.AdaptiveAvgPool2d(2)
+        self.avgpool = nn.AdaptiveAvgPool2d(output_size=2)
         self.normalize = NormalizeLayer()
         self.last_dim = 512 * block.expansion
 
