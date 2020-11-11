@@ -1,7 +1,7 @@
 import math
 import numbers
-import numpy as np
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -99,7 +99,7 @@ class RandomResizedCropLayer(nn.Module):
         output = F.grid_sample(inputs, grid, padding_mode='reflection', **kwargs)
 
         if self.size is not None:
-            output = F.adaptive_avg_pool2d(output, self.size)
+            output = F.adaptive_avg_pool2d(output, 2)
 
         return output
 
@@ -425,4 +425,3 @@ class NormalizeLayer(nn.Module):
 
     def forward(self, inputs):
         return (inputs - 0.5) / 0.5
-
