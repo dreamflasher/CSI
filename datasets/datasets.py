@@ -185,12 +185,12 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=True, eva
         image_size = (224, 224, 3)
         n_classes = 47
         train_set = adatasets.DTextures(DATA_PATH, split="train", transform=train_transform)
-        test_set = adatasets.DTextures(DATA_PATH, split="test", transform=train_transform)
+        test_set = adatasets.DTextures(DATA_PATH, split="test", transform=test_transform)
 
     elif dataset == 'steeldefects':
         image_size = (224, 224, 3)
         n_classes = 2
-        train_set, test_set = adatasets.SteelDefects(DATA_PATH, transform=train_transform).create_train_test_split()
+        train_set, test_set = adatasets.SteelDefects(DATA_PATH).create_train_test_split(train_transform=train_transform, test_transform=test_transform)
 
     elif dataset == 'cifar100':
         image_size = (32, 32, 3)
