@@ -44,8 +44,11 @@ train_loader = DataLoader(train_set, shuffle=True, batch_size=P.batch_size, **kw
 test_loader = DataLoader(test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)
 
 if P.ood_dataset is None:
-    if P.one_class_idx is not None and P.dataset != "mvtad":
+    if P.one_class_idx is not None:
         P.ood_dataset = list(range(P.n_superclasses))
+        if P.dataset == "mvtad":
+            P.ood_dataset = deepcopy(test_set.classes)
+            print(test_set.classes)
         P.ood_dataset.pop(P.one_class_idx)
     elif P.dataset == 'cifar10':
         P.ood_dataset = ['svhn', 'lsun_resize', 'imagenet_resize', 'lsun_fix', 'imagenet_fix', 'cifar100', 'interp']
