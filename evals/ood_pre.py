@@ -211,7 +211,7 @@ def _get_features(P, model, loader, interp=False, imagenet=False, simclr_aug=Non
         # concatenate features in one batch
         for key, val in feats_batch.items():
             if imagenet:
-                feats_batch[key] = torch.stack(val, dim=0)  # (B, T, d)
+                feats_batch[key] = torch.stack(val, dim=1)  # (B, T, d)
             else:
                 feats_batch[key] = torch.stack(val, dim=1)  # (B, T, d)
 
