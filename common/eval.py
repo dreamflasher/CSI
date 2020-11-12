@@ -30,13 +30,14 @@ train_set, test_set, image_size, n_classes = get_dataset(P, dataset=P.dataset, e
 P.image_size = image_size
 P.n_classes = n_classes
 
-if P.one_class_idx is not None and P.dataset != "mvtad":
+if P.one_class_idx is not None:
     cls_list = get_superclass_list(P.dataset)
     P.n_superclasses = len(cls_list)
 
     full_test_set = deepcopy(test_set)  # test set of full classes
-    train_set = get_subclass_dataset(train_set, classes=cls_list[P.one_class_idx])
-    test_set = get_subclass_dataset(test_set, classes=cls_list[P.one_class_idx])
+    if P.dataset != "mvtad":
+        train_set = get_subclass_dataset(train_set, classes=cls_list[P.one_class_idx])
+        test_set = get_subclass_dataset(test_set, classes=cls_list[P.one_class_idx])
 
 kwargs = {'pin_memory': False, 'num_workers': 4}
 
