@@ -73,7 +73,6 @@ for ood in P.ood_dataset:
     ood_test_loader[ood] = DataLoader(ood_test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)
 
 if P.dataset == "mvtad":
-    print(P.ood_dataset)
     ood_test_set = get_subclass_dataset(full_test_set, classes=P.ood_dataset)
     ood_test_loader = {"1": DataLoader(ood_test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)}
 
