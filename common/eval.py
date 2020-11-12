@@ -30,7 +30,7 @@ train_set, test_set, image_size, n_classes = get_dataset(P, dataset=P.dataset, e
 P.image_size = image_size
 P.n_classes = n_classes
 
-if P.one_class_idx is not None:
+if P.one_class_idx is not None and P.dataset != "mvtad":
     cls_list = get_superclass_list(P.dataset)
     P.n_superclasses = len(cls_list)
 
@@ -65,6 +65,12 @@ for ood in P.ood_dataset:
         ood_test_set = get_dataset(P, dataset=ood, test_only=True, image_size=P.image_size, eval=ood_eval, normal_class=P.one_class_idx)
 
     ood_test_loader[ood] = DataLoader(ood_test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)
+
+if P.dataset == "mvtad":
+    cls_list = deepcopy(test_set.classes)
+    cls_list.pop(P.one_class_idx)
+    ood_test_set = get_subclass_dataset(full_test_set, classes=cls_list)
+    ood_test_loader = {"1": DataLoader(ood_test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)}
 
 ### Initialize model ###
 
