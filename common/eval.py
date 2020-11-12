@@ -47,8 +47,8 @@ test_loader = DataLoader(test_set, shuffle=False, batch_size=P.test_batch_size, 
 if P.ood_dataset is None:
     if P.one_class_idx is not None:
         if P.dataset == "mvtad":
-            P.ood_dataset = deepcopy(test_set.class_to_idx.values())
-            print(test_set.class_to_idx.values())
+            P.ood_dataset = list(test_set.class_to_idx.values())
+            print(list(test_set.class_to_idx.values()))
         else:
             P.ood_dataset = list(range(P.n_superclasses))
         P.ood_dataset.pop(P.one_class_idx)
