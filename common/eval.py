@@ -59,6 +59,8 @@ if P.ood_dataset is None:
 
 ood_test_loader = dict()
 for ood in P.ood_dataset:
+    if P.dataset == "mvtad":
+        break
     if ood == 'interp':
         ood_test_loader[ood] = None  # dummy loader
         continue
