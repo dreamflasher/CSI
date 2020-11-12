@@ -48,7 +48,6 @@ if P.ood_dataset is None:
     if P.one_class_idx is not None:
         if P.dataset == "mvtad":
             P.ood_dataset = list(test_set.class_to_idx.values())
-            print(list(test_set.class_to_idx.values()))
         else:
             P.ood_dataset = list(range(P.n_superclasses))
         P.ood_dataset.pop(P.one_class_idx)
@@ -76,6 +75,7 @@ for ood in P.ood_dataset:
 if P.dataset == "mvtad":
     cls_list = deepcopy(test_set.classes)
     cls_list.pop(P.one_class_idx)
+    print(cls_list)
     ood_test_set = get_subclass_dataset(full_test_set, classes=cls_list)
     ood_test_loader = {"1": DataLoader(ood_test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)}
 
