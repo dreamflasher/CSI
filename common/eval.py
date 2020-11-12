@@ -47,11 +47,10 @@ test_loader = DataLoader(test_set, shuffle=False, batch_size=P.test_batch_size, 
 if P.ood_dataset is None:
     if P.one_class_idx is not None:
         if P.dataset == "mvtad":
-            P.ood_dataset = list(test_set.class_to_idx.values())
-            P.ood_dataset.pop(P.one_class_idx)  # needs twice pop because normal class is duplicated
+            P.ood_dataset = [c for c in test_set.class_to_idx.values() if c != P.one_class_idx]
         else:
             P.ood_dataset = list(range(P.n_superclasses))
-        P.ood_dataset.pop(P.one_class_idx)
+            P.ood_dataset.pop(P.one_class_idx)
     elif P.dataset == 'cifar10':
         P.ood_dataset = ['svhn', 'lsun_resize', 'imagenet_resize', 'lsun_fix', 'imagenet_fix', 'cifar100', 'interp']
     elif P.dataset == 'imagenet':
