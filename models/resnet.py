@@ -9,10 +9,11 @@ PreActBlock and PreActBottleneck module is from the later paper:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.nn.utils import spectral_norm
 
 from models.base_model import BaseModel
 from models.transform_layers import NormalizeLayer
-from torch.nn.utils import spectral_norm
+
 
 def conv3x3(in_planes, out_planes, stride=1):
     return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=False)
@@ -155,22 +156,29 @@ class ResNet(BaseModel):
     def penultimate(self, x, all_features=False):
         out_list = []
 
+        print("x.shape", x.shape)
         out = self.normalize(x)
         out = self.conv1(out)
+        print("conv1.shape", out.shape)
         out = self.bn1(out)
         out = F.relu(out)
         out_list.append(out)
 
         out = self.layer1(out)
+        print("layer1.shape", out.shape)
         out_list.append(out)
         out = self.layer2(out)
+        print("layer2.shape", out.shape)
         out_list.append(out)
         out = self.layer3(out)
+        print("layer3.shape", out.shape)
         out_list.append(out)
         out = self.layer4(out)
+        print("layer4.shape", out.shape)
         out_list.append(out)
 
         out = F.avg_pool2d(out, 4)
+        print("avg_pool2d.shape", out.shape)
         out = out.view(out.size(0), -1)
 
         if all_features:
