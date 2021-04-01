@@ -177,7 +177,7 @@ class ResNet(BaseModel):
         print("layer4.shape", out.shape)
         out_list.append(out)
 
-        out = F.avg_pool2d(out, 4)
+        out = F.avg_pool2d(out, 4, ceil_mode=True)
         print("avg_pool2d.shape", out.shape)
         out = out.view(out.size(0), -1)
 
