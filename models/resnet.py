@@ -156,29 +156,22 @@ class ResNet(BaseModel):
     def penultimate(self, x, all_features=False):
         out_list = []
 
-        print("x.shape", x.shape)
         out = self.normalize(x)
         out = self.conv1(out)
-        print("conv1.shape", out.shape)
         out = self.bn1(out)
         out = F.relu(out)
         out_list.append(out)
 
         out = self.layer1(out)
-        print("layer1.shape", out.shape)
         out_list.append(out)
         out = self.layer2(out)
-        print("layer2.shape", out.shape)
         out_list.append(out)
         out = self.layer3(out)
-        print("layer3.shape", out.shape)
         out_list.append(out)
         out = self.layer4(out)
-        print("layer4.shape", out.shape)
         out_list.append(out)
 
         out = F.avg_pool2d(out, 4, ceil_mode=True)
-        print("avg_pool2d.shape", out.shape)
         out = out.view(out.size(0), -1)
 
         if all_features:
