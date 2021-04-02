@@ -1,5 +1,5 @@
 tensorboard
 torchlars
 git+https://github.com/ildoonet/pytorch-gradual-warmup-lr.git
-apex
+apex==0.1
 diffdist
